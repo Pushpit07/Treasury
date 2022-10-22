@@ -1,0 +1,81 @@
+/**************************************************************************/
+/*****************************    Loaders    ******************************/
+/**************************************************************************/
+
+.loading_section_container {
+	position: relative !important;
+	z-index: 0;
+	top: 0;
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(255, 255, 255, 0.7);
+	backdrop-filter: blur(4px);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	justify-self: center;
+	align-items: center;
+}
+
+.loading_container {
+	position: fixed !important;
+	z-index: 100;
+	top: 0;
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(255, 255, 255, 0.7);
+	backdrop-filter: blur(4px);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	justify-self: center;
+	align-items: center;
+}
+
+.loading_container_box {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	border-radius: 12px;
+	width: 100%;
+	padding: 50px 40px 50px 40px;
+}
+
+/**************************************************************************/
+/*****************************    Spinner    ******************************/
+/**************************************************************************/
+
+.loadingSpinner {
+	width: 50px;
+	height: 50px;
+	display: grid;
+	border: 4px solid #0000;
+	border-radius: 50%;
+	border-color: #555 #0000;
+	animation: s6 1s infinite linear;
+}
+.loadingSpinner::before,
+.loadingSpinner::after {
+	content: "";
+	grid-area: 1/1;
+	margin: 2px;
+	border: inherit;
+	border-radius: 50%;
+}
+.loadingSpinner::before {
+	border-color: #5ab510 #0000;
+	animation: inherit;
+	animation-duration: 0.5s;
+	animation-direction: reverse;
+}
+.loadingSpinner::after {
+	margin: 8px;
+}
+
+@keyframes s6 {
+	100% {
+		transform: rotate(1turn);
+	}
+}
