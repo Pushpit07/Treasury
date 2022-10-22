@@ -10,7 +10,8 @@
 		"ipfs-http-client": "^58.0.1",
 		"next": "latest",
 		"react": "18.1.0",
-		"react-dom": "18.1.0"
+		"react-dom": "18.1.0",
+		"simple-crypto-js": "^3.0.1"
 	},
 	"devDependencies": {
 		"@types/node": "18.11.3",

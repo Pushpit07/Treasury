@@ -65,7 +65,7 @@
 	border-radius: 50%;
 }
 .loadingSpinner::before {
-	border-color: #5ab510 #0000;
+	border-color: #0d4ab2 #0000;
 	animation: inherit;
 	animation-duration: 0.5s;
 	animation-direction: reverse;

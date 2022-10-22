@@ -3,14 +3,18 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import UploadFileModal from "../components/UploadFileModal";
+import DecryptFileModal from "../components/DecryptFileModal";
 
 const Home = () => {
 	const router = useRouter();
 	const [isUploadFileModalOpen, setUploadFileModalOpen] = useState(false);
+	const [isDecryptFileModalOpen, setDecryptFileModalOpen] = useState(false);
 
 	useEffect(() => {
 		if (router.query && "upload" in router.query) {
 			setUploadFileModalOpen(true);
+		} else if (router.query && "decrypt" in router.query) {
+			setDecryptFileModalOpen(true);
 		} else {
 			setUploadFileModalOpen(false);
 		}
@@ -37,7 +41,7 @@ const Home = () => {
 					</div>
 					<p className="mt-6 text-6xl font-bold">Ocean of Encrypted Files</p>
 					<p className="mt-20 text-xl font-bold text-white">Upload/Store/Share any file securely on IPFS</p>
-					<div className="mt-28">
+					<div className="w-full flex justify-center space-x-10 mt-28">
 						<button
 							type="button"
 							onClick={() => {
@@ -47,11 +51,21 @@ const Home = () => {
 						>
 							Upload a File
 						</button>
+						<button
+							type="button"
+							onClick={() => {
+								router.push(`?decrypt`, undefined, { shallow: true });
+							}}
+							className="bg-primary-200 hover:bg-primary-100 transition duration-200 text-primary-300 px-10 py-2 rounded-full text-lg font-semibold shadow shadow-gray-500"
+						>
+							Decrypt a File
+						</button>
 					</div>
 				</div>
 			</main>
 
 			<UploadFileModal isOpen={isUploadFileModalOpen} setOpen={setUploadFileModalOpen} />
+			<DecryptFileModal isOpen={isDecryptFileModalOpen} setOpen={setDecryptFileModalOpen} />
 		</div>
 	);
 };

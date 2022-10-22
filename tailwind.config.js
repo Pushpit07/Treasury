@@ -9,6 +9,11 @@ module.exports = {
 					300: "#0D4AB2",
 					400: "#093177",
 				},
+				error: {
+					100: "#ff5555",
+					200: "#f33f36",
+					300: "#d80f23",
+				},
 			},
 			fontFamily: {
 				primary: ["Poppins", "sans-serif"],

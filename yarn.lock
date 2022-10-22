@@ -406,6 +406,11 @@
   "resolved" "https://registry.npmjs.org/convert-hrtime/-/convert-hrtime-5.0.0.tgz"
   "version" "5.0.0"
 
+"crypto-js@^4.1.1":
+  "integrity" "sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw=="
+  "resolved" "https://registry.npmjs.org/crypto-js/-/crypto-js-4.1.1.tgz"
+  "version" "4.1.1"
+
 "cssesc@^3.0.0":
   "integrity" "sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg=="
   "resolved" "https://registry.npmjs.org/cssesc/-/cssesc-3.0.0.tgz"
@@ -1176,6 +1181,13 @@
   "version" "0.22.0"
   dependencies:
     "loose-envify" "^1.1.0"
+
+"simple-crypto-js@^3.0.1":
+  "integrity" "sha512-dKhe6jT0WETtXX6NQn9GUTyD6Fp5F9X0ZcUI4XEqZ9dvt4/2h5QxkIl2d+2jH9SXrTBu9m7EsxC8CRaIS8i/dQ=="
+  "resolved" "https://registry.npmjs.org/simple-crypto-js/-/simple-crypto-js-3.0.1.tgz"
+  "version" "3.0.1"
+  dependencies:
+    "crypto-js" "^4.1.1"
 
 "source-map-js@^1.0.2":
   "integrity" "sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw=="

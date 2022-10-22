@@ -3,13 +3,20 @@ import Modal from "../layout/Modal/Modal";
 import { useRouter } from "next/router";
 import LoadingContext from "../store/loading-context";
 import { create } from "ipfs-http-client";
+import SimpleCrypto from "simple-crypto-js";
+import CopyEncryptedFileSecretsModal from "./CopyEncryptedFileSecretsModal";
+import { sleep } from "../utils/sleep";
 
 const UploadFileModal = ({ isOpen, setOpen }) => {
 	const router = useRouter();
 	const [, setLoading] = useContext(LoadingContext);
+	const [isCopyEncryptedFileSecretsModalOpen, setCopyEncryptedFileSecretsModalOpen] = useState(false);
+	const [cipherText, setCipherText] = useState("");
 
 	const projectId = "2GVDurmqXz7jZdSpsDpj5P33xoZ";
 	const projectSecret = "a4b5979b366827c955d8caf53ba30234";
+	const simpleCrypto = new SimpleCrypto(projectSecret);
+
 	const auth = `Basic ` + Buffer.from(projectId + `:` + projectSecret).toString(`base64`);
 	const ipfs = create({
 		host: `ipfs.infura.io`,
@@ -72,7 +79,19 @@ const UploadFileModal = ({ isOpen, setOpen }) => {
 				}
 				title={<div className="text-2xl font-semibold mt-4">Upload File</div>}
 				content={
-					<div className="flex flex-col justify-start items-start">
+					<form
+						onSubmit={async (e) => {
+							e.preventDefault();
+							const _cipherText = simpleCrypto.encrypt(selectedFile.ipfsUrl + encryptionCode);
+							setCipherText(_cipherText);
+							setOpen(false);
+							setLoading(true);
+							await sleep(1500);
+							setLoading(false);
+							setCopyEncryptedFileSecretsModalOpen(true);
+						}}
+						className="flex flex-col justify-start items-start"
+					>
 						<p className="text-zinc-600 text-sm font-semibold">Choose a file</p>
 						<div className="flex items-center mt-2">
 							<input
@@ -89,43 +108,49 @@ const UploadFileModal = ({ isOpen, setOpen }) => {
 							<div className="flex flex-col justify-start items-start text-zinc-600 text-sm">
 								<p className="break-all mt-2">{selectedFile.name}</p>
 								<p>({bytesToMegaBytes(selectedFile.size)}&nbsp;MB)</p>
-								<a href={selectedFile.ipfsUrl} target="_blank" rel="noopener noreferrer" className="mt-1 text-start">
+								{/* <a href={selectedFile.ipfsUrl} target="_blank" rel="noopener noreferrer" className="mt-1 text-start">
 									<p className="break-all text-primary-300 hover:text-primary-400 underline">{selectedFile.ipfsUrl}</p>
-								</a>
+								</a> */}
 							</div>
 						)}
 
-						<p className="text-zinc-600 text-sm font-semibold mt-6">Enter a code to encrypt your file with</p>
+						<p className="text-zinc-600 text-sm font-semibold mt-8">Enter a code to encrypt your file with</p>
 						<input
 							type={"text"}
 							value={encryptionCode ?? ""}
 							onChange={(e) => {
 								setEncryptionCode(e.target.value);
 							}}
-							placeholder="Eg. NJN14@x1^&8t8"
+							placeholder="Eg. M@$8"
 							className="w-full px-2 py-2 mt-2 border-2 border-[#777777] rounded-md shadow-sm outline-none focus:border-primary-300"
 							required
 						></input>
 						<p className="mt-1 text-xs text-start">
-							You can use anything. Please make sure to note it down as it will be required to access the uploaded file.
+							You can use anything. Please make sure to keep it simple and note it down as it will be required to access the uploaded file.
 						</p>
 
-						<div className="w-full flex justify-center items-center mt-10">
+						<div className="w-full flex justify-center items-center mt-12">
 							<button
-								type="button"
-								onClick={() => {}}
+								type="submit"
 								className="py-3 px-8 bg-primary-400 hover:bg-primary-300 transition duration-500 text-white text-sm rounded-full cursor-pointer"
 							>
 								Encrypt file and Upload
 							</button>
 						</div>
-					</div>
+					</form>
 				}
 				onClose={() => {
 					setOpen(false);
 					router.push(`/`, undefined, { shallow: true });
 				}}
 			></Modal>
+
+			<CopyEncryptedFileSecretsModal
+				isOpen={isCopyEncryptedFileSecretsModalOpen}
+				setOpen={setCopyEncryptedFileSecretsModalOpen}
+				cipherText={cipherText}
+				encryptionCode={encryptionCode}
+			/>
 		</>
 	);
 };
