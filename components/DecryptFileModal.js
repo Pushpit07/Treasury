@@ -49,13 +49,24 @@ const DecryptFileModal = ({ isOpen, setOpen }) => {
 							await sleep(1000);
 							try {
 								const decipheredText = simpleCrypto.decrypt(fileSecret);
-								const _ipfsUrl = decipheredText.substring(0, decipheredText.length - encryptionCode.length);
-								console.log(_ipfsUrl);
-								if (isValidHttpUrl(_ipfsUrl)) {
-									setDecryptedIpfsUrl(_ipfsUrl);
-									setOpen(false);
-									setDecryptedUrlModalOpen(true);
+								if (decipheredText.slice(-encryptionCode.length) === encryptionCode) {
+									const _ipfsUrl = decipheredText.substring(0, decipheredText.length - encryptionCode.length);
+									if (isValidHttpUrl(_ipfsUrl)) {
+										setDecryptedIpfsUrl(_ipfsUrl);
+										setOpen(false);
+										setDecryptedUrlModalOpen(true);
+									} else {
+										setLoading(false);
+										setError((prevState) => ({
+											...prevState,
+											title: "Invalid File Secret or Encryption Code",
+											message: "We couldn't find a matching file. Please check the file secret and encryption code.",
+											showErrorBox: true,
+										}));
+										return;
+									}
 								} else {
+									setLoading(false);
 									setError((prevState) => ({
 										...prevState,
 										title: "Invalid File Secret or Encryption Code",
@@ -65,6 +76,7 @@ const DecryptFileModal = ({ isOpen, setOpen }) => {
 									return;
 								}
 							} catch (error) {
+								setLoading(false);
 								setError((prevState) => ({
 									...prevState,
 									title: "Invalid File Secret or Encryption Code",
